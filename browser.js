@@ -227,17 +227,27 @@ const leafac = {
 
   liveReload: () => {
     const eventSource = new EventSource("/live-reload");
-    eventSource.addEventListener("error", () => {
-      eventSource.close();
-      (async function reload() {
-        try {
-          if (!(await fetch(location.href)).ok) throw new Error();
-          location.reload();
-        } catch (error) {
-          window.setTimeout(reload, 200);
-        }
-      })();
-    });
+    eventSource.addEventListener(
+      "open",
+      () => {
+        eventSource.addEventListener(
+          "error",
+          () => {
+            eventSource.close();
+            (async function reload() {
+              try {
+                if (!(await fetch(location.href)).ok) throw new Error();
+                location.reload();
+              } catch (error) {
+                window.setTimeout(reload, 200);
+              }
+            })();
+          },
+          { once: true }
+        );
+      },
+      { once: true }
+    );
   },
 
   regExps: {
