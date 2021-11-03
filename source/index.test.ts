@@ -1,5 +1,5 @@
 import { test, expect } from "@jest/globals";
-import { JavaScript, javascript } from ".";
+import javascript, { JavaScript } from ".";
 
 test("javascript``", () => {
   const clientSideJavaScript: JavaScript = javascript`console.log("Hello World")`;
