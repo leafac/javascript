@@ -2,8 +2,8 @@
   "name": "@leafac/javascript",
   "version": "0.0.2",
   "description": "Radically Straightforward Client-Side JavaScript",
-  "main": "distribution/index.js",
-  "types": "distribution/index.d.ts",
+  "exports": "./distribution/index.js",
+  "types": "./distribution/index.d.ts",
   "repository": "leafac/javascript",
   "keywords": [
     "client-side javascript",
@@ -16,8 +16,9 @@
   "publishConfig": {
     "access": "public"
   },
+  "type": "module",
   "scripts": {
-    "test": "prettier --check \"source/**/*\" \"browser.js\" --end-of-line auto && jest",
+    "test": "prettier --check \"./source/**/*\" \"./browser.js\" --end-of-line auto && npm run prepare && jest",
     "prepare": "tsc"
   },
   "dependencies": {
