@@ -33,6 +33,6 @@
     "typescript": "^4.4.3"
   },
   "jest": {
-    "rootDir": "distribution"
+    "rootDir": "./distribution/"
   }
 }
