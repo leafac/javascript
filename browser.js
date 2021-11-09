@@ -116,11 +116,12 @@ const leafac = {
     const elementsToCheck = [element, ...element.querySelectorAll("*")];
     for (const element of elementsToCheck) {
       if (
-        element.dataset.skipIsModified === "true" ||
+        element.closest(`[data-skip-is-modified="true"]`) !== null ||
         element.closest("[disabled]") !== null
       )
         continue;
-      if (element.dataset.forceIsModified === "true") return true;
+      if (element.closest(`[data-force-is-modified="true"]`) !== null)
+        return true;
       if (["radio", "checkbox"].includes(element.type)) {
         if (element.checked !== element.defaultChecked) return true;
       } else if (element.tagName.toLowerCase() === "option") {
