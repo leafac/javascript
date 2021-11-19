@@ -154,7 +154,7 @@ const leafac = {
     });
   },
 
-  relativizeDateTimeElement: (element) => {
+  relativizeDateTimeElement: (element, options = {}) => {
     const dateString = element.textContent.trim();
     element.setAttribute("datetime", dateString);
     if (tippy !== undefined)
@@ -162,7 +162,7 @@ const leafac = {
     else element.setAttribute("title", dateString);
 
     (function update() {
-      element.textContent = leafac.relativizeDateTime(dateString);
+      element.textContent = leafac.relativizeDateTime(dateString, options);
       window.setTimeout(update, 10 * 1000);
     })();
   },
@@ -187,7 +187,7 @@ const leafac = {
     const day = 24 * hour;
     const month = 30 * day;
 
-    return (dateString) => {
+    return (dateString, { preposition = undefined, dateOnly = true } = {}) => {
       const difference = new Date(dateString).getTime() - Date.now();
       const absoluteDifference = Math.abs(difference);
       return absoluteDifference < minute
@@ -198,7 +198,11 @@ const leafac = {
         ? relativeTimeFormat.format(Math.trunc(difference / hour), "hours")
         : absoluteDifference < month
         ? relativeTimeFormat.format(Math.trunc(difference / day), "days")
-        : `at ${leafac.formatDateTime(dateString)}`;
+        : `${preposition === undefined ? "" : `${preposition} `}${
+            dateOnly
+              ? leafac.formatDate(dateString)
+              : leafac.formatDateTime(dateString)
+          }`;
     };
   })(),
 
