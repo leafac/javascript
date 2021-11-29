@@ -187,22 +187,32 @@ const leafac = {
     const day = 24 * hour;
     const month = 30 * day;
 
-    return (dateString, { preposition = undefined, dateOnly = true } = {}) => {
+    return (
+      dateString,
+      { preposition = undefined, dateOnly = true, capitalize = false } = {}
+    ) => {
       const difference = new Date(dateString).getTime() - Date.now();
       const absoluteDifference = Math.abs(difference);
-      return absoluteDifference < minute
-        ? "just now"
-        : absoluteDifference < hour
-        ? relativeTimeFormat.format(Math.trunc(difference / minute), "minutes")
-        : absoluteDifference < day
-        ? relativeTimeFormat.format(Math.trunc(difference / hour), "hours")
-        : absoluteDifference < month
-        ? relativeTimeFormat.format(Math.trunc(difference / day), "days")
-        : `${preposition === undefined ? "" : `${preposition} `}${
-            dateOnly
-              ? leafac.formatDate(dateString)
-              : leafac.formatDateTime(dateString)
-          }`;
+      const relativeDateTime =
+        absoluteDifference < minute
+          ? "just now"
+          : absoluteDifference < hour
+          ? relativeTimeFormat.format(
+              Math.trunc(difference / minute),
+              "minutes"
+            )
+          : absoluteDifference < day
+          ? relativeTimeFormat.format(Math.trunc(difference / hour), "hours")
+          : absoluteDifference < month
+          ? relativeTimeFormat.format(Math.trunc(difference / day), "days")
+          : `${preposition === undefined ? "" : `${preposition} `}${
+              dateOnly
+                ? leafac.formatDate(dateString)
+                : leafac.formatDateTime(dateString)
+            }`;
+      return capitalize
+        ? leafac.capitalize(relativeDateTime)
+        : relativeDateTime;
     };
   })(),
 
@@ -229,6 +239,9 @@ const leafac = {
     if (isNaN(date.getTime())) return;
     return date;
   },
+
+  capitalize: (text) =>
+    text.length === 0 ? text : `${text[0].toUpperCase()}${text.slice(1)}`,
 
   liveReload: () => {
     const eventSource = new EventSource("/live-reload");
