@@ -191,7 +191,7 @@ const leafac = {
       dateString,
       { preposition = undefined, dateOnly = true, capitalize = false } = {}
     ) => {
-      const difference = new Date(dateString).getTime() - Date.now();
+      const difference = new Date(dateString.trim()).getTime() - Date.now();
       const absoluteDifference = Math.abs(difference);
       const relativeDateTime =
         absoluteDifference < minute
@@ -217,14 +217,14 @@ const leafac = {
   })(),
 
   formatDate: (dateString) => {
-    const date = new Date(dateString);
+    const date = new Date(dateString.trim());
     return `${String(date.getFullYear())}-${String(
       date.getMonth() + 1
     ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
   },
 
   formatTime: (dateString) => {
-    const date = new Date(dateString);
+    const date = new Date(dateString.trim());
     return `${String(date.getHours()).padStart(2, "0")}:${String(
       date.getMinutes()
     ).padStart(2, "0")}`;
@@ -235,7 +235,7 @@ const leafac = {
 
   parseDateTime: (dateString) => {
     if (dateString.match(leafac.regExps.formattedDateTime) === null) return;
-    const date = new Date(dateString.replace(" ", "T"));
+    const date = new Date(dateString.trim().replace(" ", "T"));
     if (isNaN(date.getTime())) return;
     return date;
   },
