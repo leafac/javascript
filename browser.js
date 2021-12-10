@@ -164,6 +164,15 @@ const leafac = {
     })();
   },
 
+  relativizeDateElement: (element) => {
+    const dateTime = element.getAttribute("datetime");
+
+    (function update() {
+      element.textContent = leafac.relativizeDate(dateTime);
+      window.setTimeout(update, 60 * 1000);
+    })();
+  },
+
   localizeDateTimeInput: (element) => {
     element.defaultValue = leafac.localizeDateTime(element.defaultValue);
     (element.validators ??= []).push(() => {
@@ -213,6 +222,19 @@ const leafac = {
     };
   })(),
 
+  relativizeDate: (dateString) => {
+    const date = leafac.localizeDate(dateString);
+    const today = leafac.localizeDate(new Date().toISOString());
+    const yesterdayDate = new Date();
+    yesterdayDate.setDate(yesterdayDate.getDate() - 1);
+    const yesterday = leafac.localizeDate(yesterdayDate.toISOString());
+    return date === today
+      ? "Today"
+      : date === yesterday
+      ? "Yesterday"
+      : `${date} · ${leafac.weekday(date)}`;
+  },
+
   localizeDate: (dateString) => {
     const date = new Date(dateString.trim());
     return `${String(date.getFullYear())}-${String(
@@ -236,6 +258,13 @@ const leafac = {
     if (isNaN(date.getTime())) return;
     return date;
   },
+
+  weekday: (() => {
+    const dateTimeFormat = new Intl.DateTimeFormat("en-US", {
+      weekday: "long",
+    });
+    return (dateString) => dateTimeFormat.format(new Date(dateString.trim()));
+  })(),
 
   capitalize: (text) =>
     text.length === 0 ? text : `${text[0].toUpperCase()}${text.slice(1)}`,
