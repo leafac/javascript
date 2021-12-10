@@ -157,9 +157,7 @@ const leafac = {
   relativizeDateTimeElement: (element, options = {}) => {
     const dateString = element.textContent.trim();
     element.setAttribute("datetime", dateString);
-    if (tippy !== undefined)
-      tippy(element, { content: dateString, touch: false });
-    else element.setAttribute("title", dateString);
+    tippy(element, { content: dateString, touch: false });
 
     (function update() {
       element.textContent = leafac.relativizeDateTime(dateString, options);
@@ -167,10 +165,10 @@ const leafac = {
     })();
   },
 
-  formatDateTimeInput: (element) => {
-    element.defaultValue = leafac.formatDateTime(element.defaultValue);
+  localizeDateTimeInput: (element) => {
+    element.defaultValue = leafac.localizeDateTime(element.defaultValue);
     (element.validators ??= []).push(() => {
-      const date = leafac.parseDateTime(element.value);
+      const date = leafac.UTCizeDateTime(element.value);
       if (date === undefined)
         return "Invalid date & time. Match the pattern YYYY-MM-DD HH:MM.";
       element.value = date.toISOString();
@@ -207,8 +205,8 @@ const leafac = {
           ? relativeTimeFormat.format(Math.trunc(difference / day), "days")
           : `${preposition === undefined ? "" : `${preposition} `}${
               dateOnly
-                ? leafac.formatDate(dateString)
-                : leafac.formatDateTime(dateString)
+                ? leafac.localizeDate(dateString)
+                : leafac.localizeDateTime(dateString)
             }`;
       return capitalize
         ? leafac.capitalize(relativeDateTime)
@@ -216,24 +214,24 @@ const leafac = {
     };
   })(),
 
-  formatDate: (dateString) => {
+  localizeDate: (dateString) => {
     const date = new Date(dateString.trim());
     return `${String(date.getFullYear())}-${String(
       date.getMonth() + 1
     ).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
   },
 
-  formatTime: (dateString) => {
+  localizeTime: (dateString) => {
     const date = new Date(dateString.trim());
     return `${String(date.getHours()).padStart(2, "0")}:${String(
       date.getMinutes()
     ).padStart(2, "0")}`;
   },
 
-  formatDateTime: (dateString) =>
-    `${leafac.formatDate(dateString)} ${leafac.formatTime(dateString)}`,
+  localizeDateTime: (dateString) =>
+    `${leafac.localizeDate(dateString)} ${leafac.localizeTime(dateString)}`,
 
-  parseDateTime: (dateString) => {
+  UTCizeDateTime: (dateString) => {
     if (dateString.match(leafac.regExps.formattedDateTime) === null) return;
     const date = new Date(dateString.trim().replace(" ", "T"));
     if (isNaN(date.getTime())) return;
