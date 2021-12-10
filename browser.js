@@ -243,6 +243,34 @@ const leafac = {
   capitalize: (text) =>
     text.length === 0 ? text : `${text[0].toUpperCase()}${text.slice(1)}`,
 
+  saveFormInputValue: (element, identifier) => {
+    element.defaultValue =
+      getLocalStorageItem()?.[window.location.pathname]?.[identifier] ?? "";
+    element.dataset.skipIsModified = "true";
+    element.addEventListener("input", () => {
+      const localStorageItem = getLocalStorageItem();
+      localStorageItem[window.location.pathname] ??= {};
+      localStorageItem[window.location.pathname][identifier] = element.value;
+      setLocalStorageItem(localStorageItem);
+    });
+    element.closest("form").addEventListener("submit", () => {
+      const localStorageItem = getLocalStorageItem();
+      delete localStorageItem?.[window.location.pathname]?.[identifier];
+      setLocalStorageItem(localStorageItem);
+    });
+    function getLocalStorageItem() {
+      return JSON.parse(
+        localStorage.getItem("leafac.saveFormInputValue") ?? "{}"
+      );
+    }
+    function setLocalStorageItem(localStorageItem) {
+      localStorage.setItem(
+        "leafac.saveFormInputValue",
+        JSON.stringify(localStorageItem)
+      );
+    }
+  },
+
   liveReload: () => {
     const eventSource = new EventSource("/live-reload");
     eventSource.addEventListener(
