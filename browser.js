@@ -155,12 +155,11 @@ const leafac = {
   },
 
   relativizeDateTimeElement: (element, options = {}) => {
-    const dateString = element.textContent.trim();
-    element.setAttribute("datetime", dateString);
-    tippy(element, { content: dateString, touch: false });
+    const dateTime = element.getAttribute("datetime");
+    tippy(element, { content: dateTime, touch: false });
 
     (function update() {
-      element.textContent = leafac.relativizeDateTime(dateString, options);
+      element.textContent = leafac.relativizeDateTime(dateTime, options);
       window.setTimeout(update, 10 * 1000);
     })();
   },
@@ -232,7 +231,7 @@ const leafac = {
     `${leafac.localizeDate(dateString)} ${leafac.localizeTime(dateString)}`,
 
   UTCizeDateTime: (dateString) => {
-    if (dateString.match(leafac.regExps.formattedDateTime) === null) return;
+    if (dateString.match(leafac.regExps.localizedDateTime) === null) return;
     const date = new Date(dateString.trim().replace(" ", "T"));
     if (isNaN(date.getTime())) return;
     return date;
@@ -296,6 +295,6 @@ const leafac = {
 
   regExps: {
     email: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/i,
-    formattedDateTime: /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/,
+    localizedDateTime: /^\d{4}-\d{2}-\d{2} \d{2}:\d{2}$/,
   },
 };
