@@ -1,4 +1,19 @@
 const leafac = {
+  mount: (element, partialString) => {
+    const partialHTML = new DOMParser().parseFromString(
+      partialString,
+      "text/html"
+    );
+    document
+      .querySelector("head")
+      .insertAdjacentHTML(
+        "beforeend",
+        partialHTML.querySelector("head").innerHTML
+      );
+    element.innerHTML = partialHTML.querySelector("body").innerHTML;
+    leafac.evaluateElementsAttribute(element);
+  },
+
   evaluateOnInteractive: () => {
     window.addEventListener("DOMContentLoaded", () => {
       leafac.evaluateElementsAttribute(document);
