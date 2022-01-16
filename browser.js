@@ -20,10 +20,25 @@ const leafac = {
     });
   },
 
-  evaluateElementsAttribute: (parentElement, attribute = "oninteractive") => {
-    for (const element of parentElement.querySelectorAll(`[${attribute}]`))
-      new Function(element.getAttribute(attribute)).call(element);
-  },
+  evaluateElementsAttribute: (() => {
+    const elementsAlreadyEvaluated = new Map();
+    return (parentElement, attribute = "oninteractive") => {
+      let elementsAlreadyEvaluatedAttribute =
+        elementsAlreadyEvaluated.get(attribute);
+      if (elementsAlreadyEvaluatedAttribute === undefined) {
+        elementsAlreadyEvaluatedAttribute = new Set();
+        elementsAlreadyEvaluated.set(
+          attribute,
+          elementsAlreadyEvaluatedAttribute
+        );
+      }
+      for (const element of parentElement.querySelectorAll(`[${attribute}]`)) {
+        if (elementsAlreadyEvaluatedAttribute.has(element)) continue;
+        elementsAlreadyEvaluatedAttribute.add(element);
+        new Function(element.getAttribute(attribute)).call(element);
+      }
+    };
+  })(),
 
   customFormValidation: () => {
     document.addEventListener(
