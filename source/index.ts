@@ -16,6 +16,7 @@ export function HTMLForJavaScript(): {
     parts.push(html`<div class="${className}">$${html_}</div>`);
     return javascript`document.querySelector(".${className}")`;
   };
-  adder.toString = () => parts.join("");
+  adder.toString = () =>
+    html`<div hidden class="html-for-javascript">$${parts}</div>`;
   return adder;
 }
