@@ -1,7 +1,8 @@
 import javascript from "tagged-template-noop";
-export default javascript;
-export type JavaScript = string;
 import { HTML, html } from "@leafac/html";
+
+export type JavaScript = string;
+export { default as javascript } from "tagged-template-noop";
 
 export function HTMLForJavaScript(): {
   (html_: HTML): JavaScript;
