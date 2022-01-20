@@ -1,13 +1,11 @@
 import { test, expect } from "@jest/globals";
-import { JavaScript, javascript, HTMLForJavaScript } from ".";
-
-test("javascript``", () => {
-  const clientSideJavaScript: JavaScript = javascript`console.log("Hello World")`;
-  expect(clientSideJavaScript).toMatchInlineSnapshot(
-    `"console.log(\\"Hello World\\")"`
-  );
-});
+import { HTMLForJavaScript } from ".";
+import { html } from "@leafac/html";
 
 test("HTMLForJavaScript()", () => {
   const exampleHTMLForJavaScript = HTMLForJavaScript();
+  expect(
+    exampleHTMLForJavaScript(html`<p>Example</p>`)
+  ).toMatchInlineSnapshot();
+  expect(html`$${exampleHTMLForJavaScript}`).toMatchInlineSnapshot();
 });
