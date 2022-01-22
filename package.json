@@ -1,6 +1,6 @@
 {
   "name": "@leafac/javascript",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Radically Straightforward Client-Side JavaScript",
   "exports": "./distribution/index.js",
   "types": "./distribution/index.d.ts",
