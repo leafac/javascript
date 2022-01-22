@@ -22,7 +22,11 @@ const leafac = {
 
   evaluateElementsAttribute: (() => {
     const elementsAlreadyEvaluated = new Map();
-    return (parentElement, attribute = "oninteractive") => {
+    return (
+      parentElement,
+      attribute = "oninteractive",
+      runMultipleTimes = false
+    ) => {
       let elementsAlreadyEvaluatedAttribute =
         elementsAlreadyEvaluated.get(attribute);
       if (elementsAlreadyEvaluatedAttribute === undefined) {
@@ -33,7 +37,8 @@ const leafac = {
         );
       }
       for (const element of parentElement.querySelectorAll(`[${attribute}]`)) {
-        if (elementsAlreadyEvaluatedAttribute.has(element)) continue;
+        if (!runMultipleTimes && elementsAlreadyEvaluatedAttribute.has(element))
+          continue;
         elementsAlreadyEvaluatedAttribute.add(element);
         new Function(element.getAttribute(attribute)).call(element);
       }
