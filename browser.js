@@ -10,6 +10,9 @@ const leafac = {
         "beforeend",
         partialHTML.querySelector("head").innerHTML
       );
+    document.querySelector(".html-for-javascript").innerHTML =
+      partialHTML.querySelector(".html-for-javascript").innerHTML;
+    partialHTML.querySelector(".html-for-javascript").remove();
     element.innerHTML = partialHTML.querySelector("body").innerHTML;
     leafac.evaluateElementsAttribute(element);
   },
