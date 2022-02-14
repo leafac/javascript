@@ -38,7 +38,7 @@ if (process.env.TEST === "leafac--javascript") {
     `document.querySelector(".html-for-javascript--i")`
   );
   assert.equal(
-    html`$${exampleHTMLForJavaScript}`,
+    html`$${exampleHTMLForJavaScript.toString()}`,
     `<div hidden class="html-for-javascript"><div class="html-for-javascript--ssssssssssi"><p>Example</p></div><div class="html-for-javascript--i"><p>Example</p></div></div>`
   );
 }
