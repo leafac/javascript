@@ -23,7 +23,7 @@
   },
   "type": "module",
   "scripts": {
-    "test": "prettier --check \"./source/**/*\" \"./browser.js\" --end-of-line auto && npm run prepare && cross-env TEST=leafac--javascript node ./distribution/index.js",
+    "test": "prettier --check \"./source/**/*\" --end-of-line auto && npm run prepare && cross-env TEST=leafac--javascript node ./distribution/index.js",
     "prepare": "tsc"
   },
   "dependencies": {
