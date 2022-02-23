@@ -1,5 +1,4 @@
 import assert from "node:assert/strict";
-import fs from "node:fs/promises";
 import javascript from "tagged-template-noop";
 import { HTML, html } from "@leafac/html";
 
@@ -42,8 +41,3 @@ if (process.env.TEST === "leafac--javascript") {
     `<div hidden class="html-for-javascript"><div class="html-for-javascript--ssssssssssi"><p>Example</p></div><div class="html-for-javascript--i"><p>Example</p></div></div>`
   );
 }
-
-export const globalJavaScript = await fs.readFile(
-  new URL("../source/global.js", import.meta.url),
-  "utf-8"
-);
