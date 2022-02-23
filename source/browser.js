@@ -13,12 +13,12 @@ export function mount(element, partialString) {
     partialHTML.querySelector(".html-for-javascript").innerHTML;
   partialHTML.querySelector(".html-for-javascript").remove();
   element.innerHTML = partialHTML.querySelector("body").innerHTML;
-  leafac.evaluateElementsAttribute(element);
+  evaluateElementsAttribute(element);
 }
 
 export function evaluateOnInteractive() {
   window.addEventListener("DOMContentLoaded", () => {
-    leafac.evaluateElementsAttribute(document);
+    evaluateElementsAttribute(document);
   });
 }
 
@@ -46,7 +46,7 @@ export function customFormValidation() {
   document.addEventListener(
     "submit",
     (event) => {
-      if (leafac.validate(event.target)) return;
+      if (validate(event.target)) return;
       event.preventDefault();
       event.stopPropagation();
     },
@@ -120,7 +120,7 @@ export function validate(element) {
     if (
       element.matches(`[type="email"]`) &&
       element.value.trim() !== "" &&
-      element.value.match(leafac.regExps.email) === null
+      element.value.match(regExps.email) === null
     )
       return "Please enter an email address.";
 
@@ -133,7 +133,7 @@ export function validate(element) {
 
 export function warnAboutLosingInputs() {
   const warner = (event) => {
-    if (!leafac.isModified(document.body)) return;
+    if (!isModified(document.body)) return;
     event.preventDefault();
     event.returnValue = "";
   };
@@ -190,7 +190,7 @@ export function relativizeDateTimeElement(element, options = {}) {
   tippy(element, { content: dateTime, touch: false });
 
   (function update() {
-    element.textContent = leafac.relativizeDateTime(dateTime, options);
+    element.textContent = relativizeDateTime(dateTime, options);
     window.setTimeout(update, 10 * 1000);
   })();
 }
@@ -199,15 +199,15 @@ export function relativizeDateElement(element) {
   const dateTime = element.getAttribute("datetime");
 
   (function update() {
-    element.textContent = leafac.relativizeDate(dateTime);
+    element.textContent = relativizeDate(dateTime);
     window.setTimeout(update, 60 * 1000);
   })();
 }
 
 export function localizeDateTimeInput(element) {
-  element.defaultValue = leafac.localizeDateTime(element.defaultValue);
+  element.defaultValue = localizeDateTime(element.defaultValue);
   (element.validators ??= []).push(() => {
-    const date = leafac.UTCizeDateTime(element.value);
+    const date = UTCizeDateTime(element.value);
     if (date === undefined)
       return "Invalid date & time. Match the pattern YYYY-MM-DD HH:MM.";
     element.value = date.toISOString();
@@ -239,23 +239,23 @@ export function relativizeDateTime(
       ? relativeTimeFormat.format(Math.trunc(difference / day), "days")
       : `${preposition === undefined ? "" : `${preposition} `}${
           dateOnly
-            ? leafac.localizeDate(dateString)
-            : leafac.localizeDateTime(dateString)
+            ? localizeDate(dateString)
+            : localizeDateTime(dateString)
         }`;
-  return capitalize ? leafac.capitalize(relativeDateTime) : relativeDateTime;
+  return capitalize ? capitalize(relativeDateTime) : relativeDateTime;
 }
 
 export function relativizeDate(dateString) {
-  const date = leafac.localizeDate(dateString);
-  const today = leafac.localizeDate(new Date().toISOString());
+  const date = localizeDate(dateString);
+  const today = localizeDate(new Date().toISOString());
   const yesterdayDate = new Date();
   yesterdayDate.setDate(yesterdayDate.getDate() - 1);
-  const yesterday = leafac.localizeDate(yesterdayDate.toISOString());
+  const yesterday = localizeDate(yesterdayDate.toISOString());
   return date === today
     ? "Today"
     : date === yesterday
     ? "Yesterday"
-    : `${date} · ${leafac.weekday(date)}`;
+    : `${date} · ${weekday(date)}`;
 }
 
 export function localizeDate(dateString) {
@@ -274,13 +274,13 @@ export function localizeTime(dateString) {
 }
 
 export function localizeDateTime(dateString) {
-  return `${leafac.localizeDate(dateString)} ${leafac.localizeTime(
+  return `${localizeDate(dateString)} ${localizeTime(
     dateString
   )}`;
 }
 
 export function UTCizeDateTime(dateString) {
-  if (dateString.match(leafac.regExps.localizedDateTime) === null) return;
+  if (dateString.match(regExps.localizedDateTime) === null) return;
   const date = new Date(dateString.trim().replace(" ", "T"));
   if (isNaN(date.getTime())) return;
   return date;
@@ -314,12 +314,12 @@ export function saveFormInputValue(element, identifier) {
   });
   function getLocalStorageItem() {
     return JSON.parse(
-      localStorage.getItem("leafac.saveFormInputValue") ?? "{}"
+      localStorage.getItem("formInputValue") ?? "{}"
     );
   }
   function setLocalStorageItem(localStorageItem) {
     localStorage.setItem(
-      "leafac.saveFormInputValue",
+      "formInputValue",
       JSON.stringify(localStorageItem)
     );
   }
