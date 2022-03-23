@@ -16,7 +16,7 @@ export function HTMLForJavaScript(): {
     return javascript`document.querySelector(".${className}")`;
   };
   adder.toString = () =>
-    html`<div hidden class="html-for-javascript">$${parts}</div>`;
+    html`<div id="html-for-javascript" hidden>$${parts}</div>`;
   return adder;
 }
 if (process.env.TEST === "leafac--javascript") {
@@ -31,6 +31,6 @@ if (process.env.TEST === "leafac--javascript") {
   );
   assert.equal(
     html`$${exampleHTMLForJavaScript.toString()}`,
-    `<div hidden class="html-for-javascript"><div class="html-for-javascript--0"><p>Example</p></div><div class="html-for-javascript--1"><p>Example</p></div></div>`
+    `<div id="html-for-javascript" hidden><div class="html-for-javascript--0"><p>Example</p></div><div class="html-for-javascript--1"><p>Example</p></div></div>`
   );
 }
