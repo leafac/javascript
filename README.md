@@ -124,12 +124,18 @@
         - Seems to be slower than Myers.
         - Deal-breaker: [Makes more insert/deletes](https://gist.github.com/roryokane/6f9061d3a60c1ba41237).
     - Surveys:
+      - <https://en.wikipedia.org/wiki/Edit_distance>
+      - <https://en.wikipedia.org/wiki/Longest_common_subsequence_problem>
+      - <https://en.wikipedia.org/wiki/Diff>
       - <https://wordaligned.org/articles/longest-common-subsequence>
       - <https://wiki.c2.com/?DiffAlgorithm>
       - Includes the notion of blocks: <https://ably.com/blog/practical-guide-to-diff-algorithms>
         - I don’t that the notion of blocks apply because DOM manipulations don’t afford for that.
-      - <https://en.wikipedia.org/wiki/Diff>
-      - <https://en.wikipedia.org/wiki/Edit_distance>
+  - Sorting algorithms for `key`s:
+    - Probably minimizes manipulation to the DOM in the general case: <https://en.wikipedia.org/wiki/Insertion_sort>
+    - Probably minimizes manipulation to the DOM when the siblings have been reordered, but not inserted/deleted: <https://en.wikipedia.org/wiki/Cycle_sort>
+    - May also be relevant: <https://en.wikipedia.org/wiki/Selection_sort>
+    - And the merge part of Merge Sort may also be relevant: <https://en.wikipedia.org/wiki/Merge_sort>
   - Tree edit distance:
     - This would be the optimal solution because it finds subtree movements across the tree, not limited to reordering siblings at a given level. Unfortunately, it’s too costly to be practical, so it makes sense to follow React’s heuristic of handling that edge case by destructing and reconstructing the subtree. Effectively, this turns the tree edit distance into a bunch of LCS problems, which are more tractable.
     - https://grfia.dlsi.ua.es/ml/algorithms/references/editsurvey_bille.pdf
