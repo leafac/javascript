@@ -75,6 +75,61 @@
 - **Algorithms.**
   - [React Reconciliation](https://reactjs.org/docs/reconciliation.html)
     - Claims to be linear time (`O(n)`), but it’s getting right some insertions in the middle of a list, which I don’t think one can do in linear time 🤷
+  - LCS:
+    - Hirschberg
+      - <https://en.wikipedia.org/wiki/Hirschberg%27s_algorithm>
+    - Myers
+      - Canonical sources:
+        - <http://www.xmailserver.org/diff2.pdf>
+        - <https://publications.mpi-cbg.de/Miller_1985_5440.pdf>
+      - Other people explaining it:
+        - <https://blog.jcoglan.com/2017/02/12/the-myers-diff-algorithm-part-1/>
+        - <https://blog.robertelder.org/diff-algorithm/>
+        - <https://tiarkrompf.github.io/notes/?/diff-algorithm/>
+      - Improvements:
+        - <https://neil.fraser.name/writing/diff/>
+        - <https://www.sciencedirect.com/science/article/abs/pii/002001909090035V>
+      - Implementations:
+        - <http://www.mathertel.de/Diff/>
+        - <https://github.com/git/git/blob/a68dfadae5e95c7f255cf38c9efdcbc2e36d1931/xdiff/xdiffi.c> (see folder for alternative algorithms)
+      - Notes:
+        - It seems to be used by `diff`, `git`, and so forth.
+    - Patching:
+      - <https://neil.fraser.name/writing/patch/>
+      - Notes:
+        - This relevant when we get to the idea of doing diffing on the server and patching on the client.
+        - It isn’t trivial because the client may have changed the DOM ever so slightly, and we must use the context to apply the patch, as well as deal with conflicts.
+    - Wagner–Fischer
+      - <https://dl.acm.org/doi/10.1145/321796.321811>
+      - Notes:
+        - This is the original dynamic-programming implementation that sidesteps the exponential complexity of the brute-force approach.
+    - Heckel
+      - <http://documents.scribd.com/docs/10ro9oowpo1h81pgh1as.pdf>
+      - Notes:
+        - Includes **move** operations.
+        - Deal-breaker: Makes more inserts/deletes: <https://neil.fraser.name/writing/diff/> §2.3
+    - Patience Diff
+      - Original explanation: <https://bramcohen.livejournal.com/73318.html>
+      - Other people explaining it:
+        - <https://blog.jcoglan.com/2017/09/19/the-patience-diff-algorithm/>
+        - <http://bryanpendleton.blogspot.com/2010/05/patience-diff.html>
+        - <https://alfedenzo.livejournal.com/170301.html>
+        - <https://stackoverflow.com/questions/40133534/is-gits-implementation-of-the-patience-diff-algorithm-correct/40159510#40159510>
+      - Implementations:
+        - <https://www.npmjs.com/package/patience-diff>
+      - Notes:
+        - Supposedly easy to implement and linear performance.
+        - Focuses on making diffs readable, which isn’t a high priority for us.
+        - Relies on the notion of low-frequency vs high-frequency elements, which may not be applicable.
+        - Seems to be slower than Myers.
+        - Deal-breaker: [Makes more insert/deletes](https://gist.github.com/roryokane/6f9061d3a60c1ba41237).
+    - Surveys:
+      - <https://wordaligned.org/articles/longest-common-subsequence>
+      - <https://wiki.c2.com/?DiffAlgorithm>
+      - Includes the notion of blocks: <https://ably.com/blog/practical-guide-to-diff-algorithms>
+        - I don’t that the notion of blocks apply because DOM manipulations don’t afford for that.
+      - <https://en.wikipedia.org/wiki/Diff>
+      - <https://en.wikipedia.org/wiki/Edit_distance>
   - Tree edit distance:
     - This would be the optimal solution because it finds subtree movements across the tree, not limited to reordering siblings at a given level. Unfortunately, it’s too costly to be practical, so it makes sense to follow React’s heuristic of handling that edge case by destructing and reconstructing the subtree. Effectively, this turns the tree edit distance into a bunch of LCS problems, which are more tractable.
     - https://grfia.dlsi.ua.es/ml/algorithms/references/editsurvey_bille.pdf
