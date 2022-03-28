@@ -17,6 +17,7 @@
     - Cons:
       - May require a bit more of explicit styling, because by default custom tags are inline elements but most components behave like block elements.
       - Are less familiar to some people.
+      - Dealbreaker: Don’t work well when the component relies on a tag that has intrinsic meaning, for example, `<button>`. In that case, it would require registering it with JavaScript, adding a polyfill for Safari, and so forth.
 - **Key.**
   - A way to deal with insertions, deletions, and transposition of siblings that are list-like.
   - Must be unique among siblings, but may repeat across the document.
