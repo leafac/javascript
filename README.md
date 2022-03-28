@@ -88,8 +88,6 @@
       - Improvements:
         - <https://neil.fraser.name/writing/diff/>
         - <https://www.sciencedirect.com/science/article/abs/pii/002001909090035V>
-        - Hirschberg
-          - <https://en.wikipedia.org/wiki/Hirschberg%27s_algorithm>
       - Implementations:
         - <http://www.mathertel.de/Diff/>
         - <https://github.com/git/git/blob/a68dfadae5e95c7f255cf38c9efdcbc2e36d1931/xdiff/xdiffi.c> (see folder for alternative algorithms)
