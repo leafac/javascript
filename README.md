@@ -77,8 +77,6 @@
   - [React Reconciliation](https://reactjs.org/docs/reconciliation.html)
     - Claims to be linear time (`O(n)`), but it’s getting right some insertions in the middle of a list, which I don’t think one can do in linear time 🤷
   - LCS:
-    - Hirschberg
-      - <https://en.wikipedia.org/wiki/Hirschberg%27s_algorithm>
     - Myers
       - Canonical sources:
         - <http://www.xmailserver.org/diff2.pdf>
@@ -90,6 +88,8 @@
       - Improvements:
         - <https://neil.fraser.name/writing/diff/>
         - <https://www.sciencedirect.com/science/article/abs/pii/002001909090035V>
+        - Hirschberg
+          - <https://en.wikipedia.org/wiki/Hirschberg%27s_algorithm>
       - Implementations:
         - <http://www.mathertel.de/Diff/>
         - <https://github.com/git/git/blob/a68dfadae5e95c7f255cf38c9efdcbc2e36d1931/xdiff/xdiffi.c> (see folder for alternative algorithms)
