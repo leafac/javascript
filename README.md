@@ -40,26 +40,6 @@
   - Use some heuristics to catch insertions/deletions in the middle?
 - Use LCS.
 - Use `.isEqualNode()`.
-- Code to morph attributes when there’s a match between elements and we’re about to dig in:
-
-  ```javascript
-  morph(from, to) {
-    const attributeMorphFrom = from.querySelector("div:nth-child(1)");
-    const attributeMorphTo = to.querySelector("div:nth-child(1)");
-    for (const attribute of attributeMorphFrom.getAttributeNames()) {
-      const toAttribute = attributeMorphTo.getAttribute(attribute);
-      if (toAttribute === null) attributeMorphFrom.removeAttribute(attribute);
-      else if (toAttribute !== attributeMorphFrom.getAttribute(attribute))
-        attributeMorphFrom.setAttribute(attribute, toAttribute);
-    }
-    for (const attribute of attributeMorphTo.getAttributeNames())
-      if (attributeMorphFrom.getAttribute(attribute) === null)
-        attributeMorphFrom.setAttribute(
-          attribute,
-          attributeMorphTo.getAttribute(attribute)
-        );
-  },
-  ```
 
 ## Related Work
 
@@ -73,6 +53,32 @@
     - Transferring callback handlers seems heavy-handed (though it may be a good idea in practice).
   - Others
     - Rely on some notion of virtual DOM or introduce abstractions and opinions in terms of how components should be specified.
+- **Implementations of the Algorithms (See below for Algorithms Themselves).**
+  - https://github.com/YuJianrong/fast-array-diff
+    - The output is minimal and the performance is good
+    - Claims to use less memory but be slower than `diff`.
+    - More popular
+    - Ended up using it because it comes with ESM version in the npm package, making it easy to use with Rollup.
+  - https://github.com/gliese1337/fast-myers-diff
+    - The output is minimal and the performance is good
+    - I’m not a huge fan of the generator-based API, but I understand its purpose
+    - Reasons to not go with it:
+      - It’s less popular than fast-array-diff
+      - The npm package doesn’t include an ESM version. (We could always fetch the source, but that’s less ergonomic.)
+  - https://github.com/kpdecker/jsdiff (diff)
+    - Good, but may be a bit bloated, given that it solves several cases, for example, splitting text.
+  - https://github.com/flitbit/diff (deep-diff)
+    - Deal-breaker: Doesn’t generate optimal diffs.
+  - https://github.com/AsyncBanana/microdiff
+    - Deal-breaker: Doesn’t generate optimal diffs.
+    - It’s focused on being fast, having a small bundle size, and supporting data structures such as `Date`s and cyclic objects.
+  - https://github.com/wickedest/myers-diff
+    - Text-only
+  - https://github.com/tapirdata/mdiff
+    - Weird API, doesn’t look as polished.
+  - https://github.com/Two-Screen/symmetry/
+    - [Doesn’t seem to be super-optimized](https://github.com/Two-Screen/symmetry/blob/86644f6585e714fe00a9bb7068980188abb7ba5b/src/diff.ts#L241).
+    - Supports many data types, which is more than we need.
 - **Algorithms.**
   - [React Reconciliation](https://reactjs.org/docs/reconciliation.html)
     - Claims to be linear time (`O(n)`), but it’s getting right some insertions in the middle of a list, which I don’t think one can do in linear time 🤷
