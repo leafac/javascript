@@ -1,5 +1,7 @@
 # ⚠️ WORK-IN-PROGRESS. What follows are notes that will at some point turn into proper documentation. ⚠️
 
+<details>
+
 # My Version of morphdom
 
 ## Essential Features (And How It’s Different from morphdom and nanomorph)
@@ -172,3 +174,5 @@
   - `dataset` doesn’t work because some of these attributes aren’t strings.
   - We could have namespaced them, like Tippy.js does with `_tippy`.
   - Let’s wait for it to become a problem…
+
+</details>
