@@ -2,32 +2,33 @@
 
 # My Version of morphdom
 
-## Essential Features
+## Essential Features (And How It’s Different from morphdom and nanomorph)
 
-- **Type.**
-  - A way to distinguish between components that rely on the same tag.
-  - For example, `<div data-type="conversations">` and `<div data-type="new-conversation">`.
-  - Prevents trying to morph between completely unrelated components, which is just a lot of unnecessary work compared to a complete replacement.
-  - May repeat between siblings.
-  - Similar to React’s named components (`<TagsWhichStartWithACapitalLetter>`), and to nanomorph’s `data-nanomorph-component-id`.
-  - **COULD THIS BE SUBSUMED BY KEYS?**
-  - **WOULD IT BE MORE IDIOMATIC TO USE CUSTOM TAGS (for example, `<x-conversations></x-conversations>`)?**
-    - Pros:
-      - Cleaner.
-    - Cons:
-      - May require a bit more of explicit styling, because by default custom tags are inline elements but most components behave like block elements.
-      - Are less familiar to some people.
-      - Dealbreaker: Don’t work well when the component relies on a tag that has intrinsic meaning, for example, `<button>`. In that case, it would require registering it with JavaScript, adding a polyfill for Safari, and so forth.
 - **Key.**
-  - A way to deal with insertions, deletions, and transposition of siblings that are list-like.
-  - Must be unique among siblings, but may repeat across the document.
-  - Only works when all siblings are elements, and they’re all keyed.
-  - Similar to React’s `key`s.
+  - Serves two purposes:
+    1. Distinguishes between components that rely on the same tag.
+       - For example, `<div key="conversations">` and `<div key="new-conversation">`
+       - Prevents trying to morph between completely unrelated components, which is a lot of unnecessary work compared to a complete replacement.
+       - Similar to React’s named components (`<TagsWhichStartWithACapitalLetter>`), and to nanomorph’s `data-nanomorph-component-id`.
+       - When used for this purpose, may repeat between siblings (unlike React’s `key`s, but like `data-nanomorph-component-id`).
+    2. Allows for reordering of list-like elements.
+       - Similar to React’s `key`s.
+       - When used for this purpose, shouldn’t repeat between siblings (like React’s `key`s).
+  - Notes:
+    - It’s okay to mix and match between these two purposes (2 is actually a subcase of 1).
+    - Even when using for purpose 2, the only needs to be unique among siblings—it may repeat across the document (like React’s `key`s, unlike `id`s).
 - **Longest Common Subsequence (LCS).**
-  - Minimize modifications to the DOM, which helps preserve state such as scrolling position, input caret positions, CSS transitions, and so forth.
-  - May alleviate some of the manual work of assigning types & keys.
+  - Minimize modifications to the DOM in cases of insertions, deletions, and transpositions, particularly in the middle of the list of child nodes.
+    - Preserve state such as scrolling position, input caret positions, CSS transitions, hidden state, and so forth.
+  - May alleviate some of the manual work of assigning keys for purpose 1.
   - Performance-wise, minimizing modifications to the DOM makes things faster but computing the LCS makes things slower, and whether the trade-off is worth it is up in the air.
   - This is what React seems to do. Contrary to [their documentation](https://reactjs.org/docs/reconciliation.html#recursing-on-children), even without keys React recognizes an insertion in the middle of a list without `key`s.
+  - Doesn’t handle the case of a subtree being moved from one part of the document to a completely unrelated part.
+    - In that case, the subtree is deleted, and a new equivalent subtree is inserted at the destination.
+    - Similar to React.
+    - In practice this seems to be reasonable approach.
+    - The reason for this heuristic is that this general problem of subtree similarity is slow to compute (O(n³)).
+    - morphdom actually has a workaround for this using `id`s, but we haven’t implemented anything like that.
 
 ## Desirable Features
 
@@ -36,19 +37,18 @@
 
 ## Ideas
 
-- Start with simple list traversal, like morphdom seems to do, and React’s documentation claims to do (but apparently doesn’t).
-  - Use some heuristics to catch insertions/deletions in the middle?
-- Use LCS.
 - Use `.isEqualNode()`.
+  - Seems like a good idea in theory, but in practice may introduce overhead and something as simple as a new `html-for-javascript--<number>` makes nodes different.
 
 ## Related Work
 
 - **Similar Libraries.**
   - <https://npm.im/morphdom>
     - Transposition is only handled via `id`s, which are global, not scoped to siblings.
-    - [Doesn’t handle well the case of insertions in the middle, losing state (for example, scrolling position) of siblings](https://github.com/patrick-steele-idem/morphdom/issues/200).
+    - [Doesn’t handle well the case of insertions in the middle, losing state (for example, scrolling position) of siblings, because it detaches and reattaches them](https://github.com/patrick-steele-idem/morphdom/issues/200).
   - <https://npm.im/nanomorph>
     - Transposition is only handled via `id`s, which are global, not scoped to siblings.
+      - Maybe it could be handled with `data-nanomorph-component-id`, but still, as far as I understand, it doesn’t do LCS, and probably detaches and reattaches elements similar to morphdom.
     - No lifecycle callbacks (though most of them are subsumed by other mechanisms, for example, `.isSameNode()`).
     - Transferring callback handlers seems heavy-handed (though it may be a good idea in practice).
   - Others
@@ -147,3 +147,28 @@
     - http://tree-edit-distance.dbresearch.uni-salzburg.at/
     - https://stackoverflow.com/questions/1065247/how-do-i-calculate-tree-edit-distance
     - https://dl.acm.org/doi/10.1145/2699485
+
+# Nonstandard Tags (Custom Elements) & Attributes
+
+- We actually end up doing the exact opposite of the “best practices” 😛
+- We don’t use nonstandard tags (custom elements) (for example, `<x-conversations></x-conversations>`) (instead, we use `<div key="conversation"></div>`).
+  - Pros:
+    - Cleaner.
+  - Cons:
+    - May require a bit more of explicit styling, because by default custom tags are inline elements but most components behave like block elements.
+    - Are less familiar to some people.
+    - Dealbreaker: Don’t work well when the component relies on a tag that has intrinsic meaning, for example, `<button>`. In that case, it would require registering it with JavaScript, adding a polyfill for Safari, and so forth.
+- We do use nonstandard attributes (for example, `key`, `onload`, and so forth).
+  - Pros:
+    - Cleaner.
+  - Cons:
+    - New developers could mistake these for standard attributes.
+    - It may clash with standard attributes in the future.
+      - In practice, we can cross that bridge when we get to it.
+      - Besides, some attributes such as `key` are used by React, so they’re a de-facto standard.
+  - We could just use `data-`, but that’s more verbose…
+- Bonus “bad practice” 😛:
+  - We add attributes to DOM elements as we see fit (for example, `element.tooltip`, and so forth).
+  - `dataset` doesn’t work because some of these attributes aren’t strings.
+  - We could have namespaced them, like Tippy.js does with `_tippy`.
+  - Let’s wait for it to become a problem…
