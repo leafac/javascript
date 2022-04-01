@@ -11,9 +11,9 @@ export function HTMLForJavaScript(): {
 } {
   const parts: HTML[] = [];
   const adder = (html_: HTML): JavaScript => {
-    const className = `html-for-javascript--${parts.length}`;
-    parts.push(html`<div class="${className}">$${html_}</div>`);
-    return javascript`document.querySelector(".${className}")`;
+    const key = `html-for-javascript--${parts.length}`;
+    parts.push(html`<div key="${key}">$${html_}</div>`);
+    return javascript`document.querySelector(".${key}")`;
   };
   adder.toString = () =>
     html`<div key="html-for-javascript" hidden>$${parts}</div>`;
@@ -31,6 +31,6 @@ if (process.env.TEST === "leafac--javascript") {
   );
   assert.equal(
     html`$${exampleHTMLForJavaScript.toString()}`,
-    `<div key="html-for-javascript" hidden><div class="html-for-javascript--0"><p>Example</p></div><div class="html-for-javascript--1"><p>Example</p></div></div>`
+    `<div key="html-for-javascript" hidden><div key="html-for-javascript--0"><p>Example</p></div><div key="html-for-javascript--1"><p>Example</p></div></div>`
   );
 }
