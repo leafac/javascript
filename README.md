@@ -46,6 +46,8 @@
   - Advantage: Possibly less addition/deletion of siblings.
   - Disadvantage: Possibly more shuffling things around, as we have less information for LCS.
 - Maybe `<input type="file">` shouldn’t be morphed under some circumstances, because we can’t reset their `.files`.
+- Add support for namespaced attributes?
+- Add support for `<select>` & `<option>`? (See https://github.com/patrick-steele-idem/morphdom/blob/master/src/specialElHandlers.js & https://github.com/choojs/nanomorph/blob/master/lib/morph.js)
 
 ## Related Work
 
