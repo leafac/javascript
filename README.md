@@ -31,6 +31,7 @@
     - In practice this seems to be reasonable approach.
     - The reason for this heuristic is that this general problem of subtree similarity is slow to compute (O(n³)).
     - morphdom actually has a workaround for this using `id`s, but we haven’t implemented anything like that.
+- Also, unlike morphdom and nanomorph, we don’t modify the destination DOM node (we use `.importNode()` instead) so you don’t have to discard it.
 
 ## Desirable Features
 
@@ -44,6 +45,7 @@
 - Right now, when a node isn’t an element (for example, it’s text, or a comment), its `.nodeValue` is part of its identity, which means in case some text has changed, we remove and add nodes. We could remove the `.nodeValue` from the identity and sync it, similar to how we sync attributes on elements.
   - Advantage: Possibly less addition/deletion of siblings.
   - Disadvantage: Possibly more shuffling things around, as we have less information for LCS.
+- Maybe `<input type="file">` shouldn’t be morphed under some circumstances, because we can’t reset their `.files`.
 
 ## Related Work
 
