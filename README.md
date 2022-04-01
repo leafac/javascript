@@ -41,6 +41,9 @@
 
 - Use `.isEqualNode()`.
   - Seems like a good idea in theory, but in practice may introduce overhead and something as simple as a new `html-for-javascript--<number>` makes nodes different.
+- Right now, when a node isn’t an element (for example, it’s text, or a comment), its `.nodeValue` is part of its identity, which means in case some text has changed, we remove and add nodes. We could remove the `.nodeValue` from the identity and sync it, similar to how we sync attributes on elements.
+  - Advantage: Possibly less addition/deletion of siblings.
+  - Disadvantage: Possibly more shuffling things around, as we have less information for LCS.
 
 ## Related Work
 
