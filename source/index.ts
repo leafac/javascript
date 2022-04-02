@@ -13,7 +13,7 @@ export function HTMLForJavaScript(): {
   const adder = (html_: HTML): JavaScript => {
     const key = `html-for-javascript--${parts.length}`;
     parts.push(html`<div key="${key}">$${html_}</div>`);
-    return javascript`document.querySelector('[key="${key}"]')`;
+    return javascript`document.querySelector('[key="html-for-javascript"] > [key="${key}"]')`;
   };
   adder.toString = () =>
     html`<div key="html-for-javascript" hidden>$${parts}</div>`;
@@ -23,11 +23,11 @@ if (process.env.TEST === "leafac--javascript") {
   const exampleHTMLForJavaScript = HTMLForJavaScript();
   assert.equal(
     exampleHTMLForJavaScript(html`<p>Example</p>`),
-    `document.querySelector('[key="html-for-javascript--0"]')`
+    `document.querySelector('[key="html-for-javascript"] > [key="html-for-javascript--0"]')`
   );
   assert.equal(
     exampleHTMLForJavaScript(html`<p>Example</p>`),
-    `document.querySelector('[key="html-for-javascript--1"]')`
+    `document.querySelector('[key="html-for-javascript"] > [key="html-for-javascript--1"]')`
   );
   assert.equal(
     html`$${exampleHTMLForJavaScript.toString()}`,
