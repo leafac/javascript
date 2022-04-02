@@ -181,5 +181,6 @@
   - `dataset` doesn’t work because some of these attributes aren’t strings.
   - We could have namespaced them, like Tippy.js does with `_tippy`.
   - Let’s wait for it to become a problem…
+  - We aren’t using `<template>`s because they prevent `.querySelector()` from getting into them. In many cases (for example, tooltips), we actually want to `.querySelector("[onload]")`, and in cases we doing, we can always resort to `onloadpartial`.
 
 </details>
