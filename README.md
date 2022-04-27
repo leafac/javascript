@@ -1,9 +1,26 @@
 # ⚠️ WORK-IN-PROGRESS. What follows are notes that will at some point turn into proper documentation. ⚠️
 
 - Currently `onload` may be adding a bunch of repeated JavaScript, adding to the size of the page. Perhaps we should do something similar to what we do in `local-css`?
+
   - Note that modifying the `textContent` of `<script>` tag only has immediate effect the first time(!) Subsequent modifications aren’t picked up by the browser (but you can always `eval()`).
 
 - Make `onload` an `AsyncFunction`?
+
+- Document
+  - Reasons to prefer `fetch` over `EventSource`:
+    - Features such as headers.
+    - Implementors lost interest on `EventSource` (https://github.com/whatwg/html/issues/2177).
+    - Free to use a more sensible event-stream format, such as NDJSON, instead of the weird `text/event-stream` format.
+  - Reasons to have one event-stream connection per route, and close and reopen as you navigate, as opposed to a single persistent event-stream connection:
+    - Session management would be awkward
+    - Extra work to not have event-stream open for routes that don’t support them (otherwise it increases the server load for no good reason) (but most of the time people are on routes that support live updates, so it’s no big deal).
+    - The live-updates middleware benefits from appearing after authentication and retrieval of things like course information. It’d be awkward to have it as a global middleware.
+  - Reasons not to use the Visibility API:
+    - First, the obvious pro: We could disconnect the live-updates event-stream when the tab isn’t showing, reducing the load on the server.
+    - But we decided against it because we want to be able to have features such as changing a tab title to “2 unread messages,” even if the tab is on the background, and this requires the connection to the server to be kept alive.
+  - Assumptions on `onload`:
+    - It’s only safe to run `onload` once.
+    - The code will be run again on live-navigation & live-update, and there may be some continuity in the form of tooltips & event handlers.
 
 <details>
 
