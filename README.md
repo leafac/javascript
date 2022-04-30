@@ -21,6 +21,10 @@
   - Assumptions on `onload`:
     - It’s only safe to run `onload` once.
     - The code will be run again on live-navigation & live-update, and there may be some continuity in the form of tooltips & event handlers.
+  - Redirects:
+    - Use 307 (temporary) & 308 (permanent) on normal redirects. (They preserve the HTTP method on the new request.)
+    - Use 303 on redirects after a `POST`. (It changes the HTTP method from `POST` to `GET` on the new request.) (Naturally, the same principle applies to other HTTP methods, including `PATCH`, `PUT`, `DELETE`, and so forth.)
+    - Don’t use 302 (temporary) & 301 (permanent), because some browsers may change the method on redirect. Prefer 307 & 308 instead.
 
 <details>
 
