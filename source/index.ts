@@ -10,14 +10,14 @@ export function HTMLForJavaScript(): {
   toString(): HTML;
 } {
   const parts: HTML[] = [];
-  const adder = (html_: HTML): JavaScript => {
+  const addPart = (html_: HTML): JavaScript => {
     const key = `html-for-javascript--${parts.length}`;
     parts.push(html`<div key="${key}">$${html_}</div>`);
     return javascript`document.querySelector('[key="html-for-javascript"] > [key="${key}"]')`;
   };
-  adder.toString = () =>
+  addPart.toString = () =>
     html`<div key="html-for-javascript" hidden>$${parts}</div>`;
-  return adder;
+  return addPart;
 }
 if (process.env.TEST === "leafac--javascript") {
   const exampleHTMLForJavaScript = HTMLForJavaScript();

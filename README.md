@@ -7,6 +7,7 @@
 - Make `onload` an `AsyncFunction`?
 
 - Document
+
   - Reasons to prefer `fetch` over `EventSource`:
     - Features such as headers.
     - Implementors lost interest on `EventSource` (https://github.com/whatwg/html/issues/2177).
@@ -25,6 +26,14 @@
     - Use 307 (temporary) & 308 (permanent) on normal redirects. (They preserve the HTTP method on the new request.)
     - Use 303 on redirects after a `POST`. (It changes the HTTP method from `POST` to `GET` on the new request.) (Naturally, the same principle applies to other HTTP methods, including `PATCH`, `PUT`, `DELETE`, and so forth.)
     - Don’t use 302 (temporary) & 301 (permanent), because some browsers may change the method on redirect. Prefer 307 & 308 instead.
+  - Curious fact about `.addEventListener("EVENT")` vs `.onEVENT = `: The order in which you put the `.onEVENT = ` adds an entry into the event listeners queue at that position, and subsequent `.onEVENT = `s replace that entry.
+
+- Tests:
+  - https://www.ssllabs.com/ssltest/
+  - Content-Security-Policy
+    - https://csp-evaluator.withgoogle.com
+    - https://securityheaders.com
+  - https://hstspreload.org
 
 <details>
 
@@ -37,6 +46,7 @@
     1. Distinguishes between components that rely on the same tag.
        - For example, `<div key="conversations">` and `<div key="new-conversation">`
        - Prevents trying to morph between completely unrelated components, which is a lot of unnecessary work compared to a complete replacement.
+       - Also useful to force similar elements to be treated differently, for example, `<input>`s on live-updates, which otherwise would have their `value`s preserved.
        - Similar to React’s named components (`<TagsWhichStartWithACapitalLetter>`), and to nanomorph’s `data-nanomorph-component-id`.
        - When used for this purpose, may repeat between siblings (unlike React’s `key`s, but like `data-nanomorph-component-id`).
     2. Allows for reordering of list-like elements.
