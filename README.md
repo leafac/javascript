@@ -220,3 +220,28 @@
   - We aren’t using `<template>`s because they prevent `.querySelector()` from getting into them. In many cases (for example, tooltips), we actually want to `.querySelector("[onload]")`, and in cases we doing, we can always resort to `onloadpartial`.
 
 </details>
+
+# Testing
+
+- Desirable features
+  - Colocate tests and implementation
+  - Snapshot
+  - No globais
+  - No separate executable
+- Tools to use
+  - https://nodejs.org/api/assert.html
+  - Use process.on to register tests
+  - https://github.com/substack/tape
+- References
+  - https://github.com/facebook/jest/tree/main/packages/jest-snapshot
+  - https://kentcdodds.com/blog/colocation
+  - https://users.rust-lang.org/t/should-unit-tests-really-be-put-in-the-same-file-as-the-source/62153/4
+  - The D Programming Language supports writing unit tests inline with source
+  - Pyret
+  - Python doctests
+  - https://github.com/eric1234/test_inline/wiki/Trade-offs
+  - https://sergimansilla.com/blog/extending-js-inline-unit-tests/
+  - https://news.ycombinator.com/item?id=6707168
+  - https://github.com/facebook/jest/issues/4316
+  - https://github.com/bowd/jest-same-file-tests
+  - https://vitest.dev/guide/features.html#in-source-testing
