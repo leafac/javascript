@@ -78,6 +78,7 @@
 
 - Use `.isEqualNode()`.
   - Seems like a good idea in theory, but in practice may introduce overhead and something as simple as a new `html-for-javascript--<number>` makes nodes different.
+  - Elm seems to do something similar, but because it uses a virtual DOM the `.isEqualNode()` boils down to comparison by identity. Besides, every part in the construction of the virtual DOM is cached, making things even faster. (But Elm makes you jump through some hoops to maintain the invariants that make all this possible. And it’s a different language to learn.)
 - Right now, when a node isn’t an element (for example, it’s text, or a comment), its `.nodeValue` is part of its identity, which means in case some text has changed, we remove and add nodes. We could remove the `.nodeValue` from the identity and sync it, similar to how we sync attributes on elements.
   - Advantage: Possibly less addition/deletion of siblings.
   - Disadvantage: Possibly more shuffling things around, as we have less information for LCS.
@@ -232,6 +233,7 @@
   - https://nodejs.org/api/assert.html
   - Use process.on to register tests
   - https://github.com/substack/tape
+- webpack (perhaps others) should be able to remove blocks of test from within the code when bundling.
 - References
   - https://github.com/facebook/jest/tree/main/packages/jest-snapshot
   - https://kentcdodds.com/blog/colocation
