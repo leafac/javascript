@@ -31,14 +31,14 @@
     "prepare": "tsc && shx cp ./source/browser.js ./distribution/browser.js"
   },
   "dependencies": {
-    "@leafac/html": "^3.0.1",
+    "@leafac/html": "^3.0.2",
     "tagged-template-noop": "^2.1.1"
   },
   "devDependencies": {
-    "@types/node": "^17.0.17",
+    "@types/node": "^18.8.3",
     "cross-env": "^7.0.3",
-    "prettier": "^2.5.1",
+    "prettier": "^2.7.1",
     "shx": "^0.3.4",
-    "typescript": "^4.5.5"
+    "typescript": "^4.8.4"
   }
 }
