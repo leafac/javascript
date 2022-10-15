@@ -19,6 +19,7 @@ export function HTMLForJavaScript(): {
     html`<div key="html-for-javascript" hidden>$${parts}</div>`;
   return addPart;
 }
+
 if (process.env.TEST === "leafac--javascript") {
   const exampleHTMLForJavaScript = HTMLForJavaScript();
   assert.equal(
