@@ -2,39 +2,39 @@
   "name": "@leafac/javascript",
   "version": "0.2.12",
   "description": "Radically Straightforward Client-Side JavaScript",
-  "exports": {
-    ".": "./distribution/index.js",
-    "./distribution/browser.js": "./distribution/browser.js"
-  },
-  "types": "./distribution/index.d.ts",
-  "repository": "leafac/javascript",
   "keywords": [
     "client-side javascript",
     "browser"
   ],
-  "author": "Leandro Facchinetti <javascript@leafac.com> (https://leafac.com)",
-  "license": "MIT",
-  "bugs": "https://github.com/leafac/javascript/issues",
   "homepage": "https://github.com/leafac/javascript",
+  "repository": "https://github.com/leafac/javascript",
+  "bugs": "https://github.com/leafac/javascript/issues",
   "funding": [
     "https://patreon.com/leafac",
     "https://paypal.me/LeandroFacchinettiEU",
     "https://github.com/sponsors/leafac",
     "https://btc.com/34KJBgtaFYMtDqpSgMayw9qiKWg2GQXA9M"
   ],
+  "author": "Leandro Facchinetti <javascript@leafac.com> (https://leafac.com)",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },
+  "exports": {
+    ".": "./build/index.mjs",
+    "./build/browser.mjs": "./build/browser.mjs"
+  },
+  "types": "./build/index.d.mts",
   "scripts": {
-    "test": "prettier --check \"./source/**/*\" --end-of-line auto && npm run prepare && cross-env TEST=leafac--javascript node ./distribution/index.js",
-    "prepare": "tsc && shx cp ./source/browser.js ./distribution/browser.js"
+    "test": "prettier --check \"source/**/*.mts\" --end-of-line auto && npm run prepare && cross-env TEST=leafac--javascript node ./build/index.mjs",
+    "prepare": "tsc && shx cp ./source/browser.mjs ./build/browser.mjs"
   },
   "dependencies": {
-    "@leafac/html": "^3.0.2",
+    "@leafac/html": "^3.0.3",
     "tagged-template-noop": "^2.1.1"
   },
   "devDependencies": {
-    "@types/node": "^18.8.3",
+    "@types/node": "^18.11.0",
     "cross-env": "^7.0.3",
     "prettier": "^2.7.1",
     "shx": "^0.3.4",
