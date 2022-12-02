@@ -1,23 +1,29 @@
-import assert from "node:assert/strict";
 import javascript from "tagged-template-noop";
-import { HTML, html } from "@leafac/html";
+import html, { HTML } from "@leafac/html";
+import assert from "node:assert/strict";
 
 export type JavaScript = string;
-export { default as javascript } from "tagged-template-noop";
+
+export default javascript;
 
 export function HTMLForJavaScript(): {
   (html_: HTML): JavaScript;
   toString(): HTML;
 } {
-  const parts: HTML[] = [];
-  const addPart = (html_: HTML): JavaScript => {
-    const key = `html-for-javascript--${parts.length}`;
-    parts.push(html`<div key="${key}">$${html_}</div>`);
+  let markup = "";
+  let counter = 0;
+
+  const output = (html_: HTML): JavaScript => {
+    const key = `html-for-javascript--${counter}`;
+    markup += html`<div key="${key}">$${html_}</div>`;
+    counter++;
     return javascript`document.querySelector('[key="html-for-javascript"] > [key="${key}"]')`;
   };
-  addPart.toString = () =>
-    html`<div key="html-for-javascript" hidden>$${parts}</div>`;
-  return addPart;
+
+  output.toString = () =>
+    html`<div key="html-for-javascript" hidden>$${markup}</div>`;
+
+  return output;
 }
 
 if (process.env.TEST === "leafac--javascript") {

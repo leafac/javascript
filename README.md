@@ -1,4 +1,6 @@
-# ⚠️ WORK-IN-PROGRESS. What follows are notes that will at some point turn into proper documentation. ⚠️
+# ⚠️ WORK-IN-PROGRESS ⚠️
+
+<!--
 
 - `key=""` may be understood to imply uniqueness at first glance
   - Perhaps it would be nicer to have more structure in the key besides just a string.
