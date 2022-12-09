@@ -2,6 +2,10 @@
 
 <!--
 
+[live-navigation] * {
+  cursor: wait !important;
+}
+
 - `key=""` may be understood to imply uniqueness at first glance
   - Perhaps it would be nicer to have more structure in the key besides just a string.
 
