@@ -30,11 +30,13 @@
     "prepare": "tsc && shx cp ./source/browser.mjs ./build/browser.mjs"
   },
   "dependencies": {
+    "@emotion/hash": "^0.9.0",
     "@leafac/html": "^4.0.0",
     "tagged-template-noop": "^2.1.1"
   },
   "devDependencies": {
     "@types/node": "^18.11.10",
+    "@types/prettier": "^2.7.2",
     "cross-env": "^7.0.3",
     "prettier": "^2.8.0",
     "shx": "^0.3.4",
