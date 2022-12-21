@@ -18,7 +18,7 @@ export function localHTMLForJavaScript(): {
     const key = `html-for-javascript--${counter}`;
     markup += html`<div key="${key}">$${html_}</div>`;
     counter++;
-    return javascript`(() => { const element = document.querySelector('[key="html-for-javascript"] > [key="${key}"]'); element.remove(); return element; })()`;
+    return javascript`document.querySelector('[key="html-for-javascript"] > [key="${key}"]')`;
   };
 
   output.toString = () =>
@@ -31,11 +31,11 @@ if (process.env.TEST === "leafac--javascript") {
   const pageHTMLForJavaScript = localHTMLForJavaScript();
   assert.equal(
     pageHTMLForJavaScript(html`<p>Example</p>`),
-    `(() => { const element = document.querySelector('[key="html-for-javascript"] > [key="html-for-javascript--0"]'); element.remove(); return element; })()`
+    `document.querySelector('[key="html-for-javascript"] > [key="html-for-javascript--0"]')`
   );
   assert.equal(
     pageHTMLForJavaScript(html`<p>Example</p>`),
-    `(() => { const element = document.querySelector('[key="html-for-javascript"] > [key="html-for-javascript--1"]'); element.remove(); return element; })()`
+    `document.querySelector('[key="html-for-javascript"] > [key="html-for-javascript--1"]')`
   );
   assert.equal(
     html`$${pageHTMLForJavaScript.toString()}`,
