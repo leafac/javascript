@@ -2,6 +2,8 @@
 
 <!--
 
+One (perhaps valuable) difference between `morph()` and other solutions like `morphdom`: `morph()` does’t destroy the `to` tree, while `morphdom` does.
+
 [live-navigation] * {
   cursor: wait !important;
 }
