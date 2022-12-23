@@ -2,6 +2,22 @@
 
 <!--
 
+Pulling client-side JavaScript into a `<script>` tag, as opposed to leaving it inline:
+
+Pros:
+
+- Clean up the Inspector in the Developer Tools.
+- Potential to reduce the size of HTML.
+- Aligns with the treatment of CSS, and even of HTMLForJavaScript, to some extent.
+
+Cons:
+
+- Introduces one layer of indirection in the Inspector.
+- The size reduction could have happened with gzip, which sometimes is even better.
+- Slows things down on the server because it has to compute the hash of all client-side JavaScript. (The same is true of CSS, by the way.)
+
+---
+
 One (perhaps valuable) difference between `morph()` and other solutions like `morphdom`: `morph()` does’t destroy the `to` tree, while `morphdom` does.
 
 [live-navigation] * {
