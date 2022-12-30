@@ -23,7 +23,7 @@
     "./static/index.mjs": "./static/index.mjs"
   },
   "scripts": {
-    "test": "prettier --check \"./static/**/*.mts\" --end-of-line auto"
+    "test": "prettier --check \"./static/**/*.mjs\" --end-of-line auto"
   },
   "devDependencies": {
     "prettier": "^2.8.0"
