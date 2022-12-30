@@ -37,7 +37,7 @@ export function localJavaScript(parameters: string = "event"): {
   return output;
 }
 
-if (process.env.TEST === "leafac--javascript") {
+if (process.env.TEST === "@leafac/javascript") {
   const prettier = await import("prettier");
 
   const pageJavaScript = localJavaScript();

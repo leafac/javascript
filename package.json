@@ -26,7 +26,7 @@
   },
   "types": "./build/index.d.mts",
   "scripts": {
-    "test": "prettier --check \"source/**/*.mts\" --end-of-line auto && npm run prepare && cross-env TEST=leafac--javascript node ./build/index.mjs",
+    "test": "prettier --check \"./source/**/*.mts\" --end-of-line auto && npm run prepare && cross-env TEST=@leafac/javascript node ./build/index.mjs",
     "prepare": "tsc && shx cp ./source/browser.mjs ./build/browser.mjs"
   },
   "dependencies": {
