@@ -3,8 +3,7 @@
   "version": "0.4.0",
   "description": "Radically Straightforward Client-Side JavaScript",
   "keywords": [
-    "client-side javascript",
-    "browser"
+    "javascript"
   ],
   "homepage": "https://github.com/leafac/javascript",
   "repository": "https://github.com/leafac/javascript",
@@ -21,25 +20,12 @@
     "access": "public"
   },
   "exports": {
-    ".": "./build/index.mjs",
-    "./build/browser.mjs": "./build/browser.mjs"
+    "./static/index.mjs": "./static/index.mjs"
   },
-  "types": "./build/index.d.mts",
   "scripts": {
-    "test": "prettier --check \"./source/**/*.mts\" --end-of-line auto && npm run prepare && cross-env TEST=@leafac/javascript node ./build/index.mjs",
-    "prepare": "tsc && shx cp ./source/browser.mjs ./build/browser.mjs"
-  },
-  "dependencies": {
-    "@emotion/hash": "^0.9.0",
-    "@leafac/html": "^4.0.0",
-    "tagged-template-noop": "^2.1.1"
+    "test": "prettier --check \"./static/**/*.mts\" --end-of-line auto"
   },
   "devDependencies": {
-    "@types/node": "^18.11.10",
-    "@types/prettier": "^2.7.2",
-    "cross-env": "^7.0.3",
-    "prettier": "^2.8.0",
-    "shx": "^0.3.4",
-    "typescript": "^4.9.3"
+    "prettier": "^2.8.0"
   }
 }
