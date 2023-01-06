@@ -1,1 +1,1 @@
-export { default } from "@leafac/tagged-template";
+export { default } from "tagged-template-noop";
