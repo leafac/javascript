@@ -23,6 +23,15 @@ One (perhaps valuable) difference between `morph()` and other solutions like `mo
 [live-navigation] * {
   cursor: wait !important;
 }
+.[live-navigation] {
+  &,
+  & *,
+  & ::before,
+  & ::after {
+    cursor: wait !important;
+  }
+}
+
 
 - `key=""` may be understood to imply uniqueness at first glance
   - Perhaps it would be nicer to have more structure in the key besides just a string.
