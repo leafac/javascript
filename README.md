@@ -2,6 +2,20 @@
 
 <!--
 
+- It’d be nice to allow for client-side templating from within server-side templating:
+
+```javascript
+response.send(html`
+  <div javascript="${javascript`
+    this.insertAdjacentHTML("beforestart", html`[...] ${HAVE THIS RESOLVE ON THE CLIENT} [...]`);
+  `}"></div>
+`);
+
+```
+
+---
+
+
 Pulling client-side JavaScript into a `<script>` tag, as opposed to leaving it inline:
 
 Pros:
